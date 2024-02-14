@@ -10,7 +10,8 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "preinstall": "pnpm --filter @mukund1606/entertainu.ts build"
   },
   "workspaces": {
     "nohoist": [
