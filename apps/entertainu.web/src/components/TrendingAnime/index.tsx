@@ -172,7 +172,7 @@ function CarouselComponent({
       }
     }, 7000);
     return () => clearInterval(interval);
-  }, [index]);
+  }, [index, data, isForward]);
 
   return (
     <motion.div

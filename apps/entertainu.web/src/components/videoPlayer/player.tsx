@@ -1,5 +1,12 @@
 "use client";
-import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import "@vidstack/react/player/styles/base.css";
 
@@ -55,20 +62,25 @@ const Player = forwardRef<MediaPlayerInstance, PlayerProps>(
     }: PlayerProps,
     ref,
   ) => {
-    const player =
-      (ref as React.RefObject<MediaPlayerInstance>) ??
-      useRef<MediaPlayerInstance>(null);
+    const myRef = useRef<MediaPlayerInstance>(null);
+    const player = (ref as React.RefObject<MediaPlayerInstance>) ?? myRef;
+
     const [skipNumber, setSkipNumber] = useState<number | undefined>(0);
 
-    const sortedSkips = skips
-      ? [...skips].sort((a, b) => a.initialTime - b.initialTime)
-      : [];
+    const sortedSkips = useMemo(
+      () =>
+        skips ? [...skips].sort((a, b) => a.initialTime - b.initialTime) : [],
+      [skips],
+    );
 
-    const seekToTime = useCallback((time: number) => {
-      if (player?.current) {
-        player.current.currentTime = time;
-      }
-    }, []);
+    const seekToTime = useCallback(
+      (time: number) => {
+        if (player?.current) {
+          player.current.currentTime = time;
+        }
+      },
+      [player],
+    );
 
     useEffect(() => {
       return player?.current?.subscribe(({ currentTime }) => {
@@ -96,7 +108,7 @@ const Player = forwardRef<MediaPlayerInstance, PlayerProps>(
           setSkipNumber(undefined);
         }
       });
-    }, [skipNumber]);
+    }, [skipNumber, player, sortedSkips]);
 
     const renderSkipButton = useCallback(
       (skip: SkipProps) => (
@@ -147,4 +159,5 @@ const Player = forwardRef<MediaPlayerInstance, PlayerProps>(
   },
 );
 
+Player.displayName = "Player";
 export default Player;
