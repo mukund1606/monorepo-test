@@ -1,0 +1,15 @@
+{
+	"name": "@mukund1606/entertainu",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"prepare": "husky install packages/entertainu/.husky"
+	},
+	"devDependencies": {
+		"husky": "^9.0.11"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
+}
